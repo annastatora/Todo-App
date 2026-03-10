@@ -1,0 +1,45 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h1 class="text-shadow-lg text-5xl text-center">TASKS</h1>
+
+
+<ul class="list bg-base-100 rounded-box shadow-md card shadow-2xl card-body">
+
+
+    {% for task in tasks %}
+    <li class="list-row">
+        <form method="POST" action="/update">
+            <input type="hidden" name="id" value="{{task.id}}">
+            <input name="done" type="checkbox" {% if task.done %}checked="checked" {% endif %}
+                class="checkbox checkbox-secondary" onchange="this.form.submit()" />
+
+        </form>
+        <div>
+            <div>{{task.title}}</div>
+           
+        </div>
+
+        <form method="POST" action="/delete">
+            <input type="hidden" name="id" value="{{task.id}}">
+            <button name="done" class="btn btn-danger" onclick="this.form.submit()">DEL</button>
+        </form>
+
+    </li>
+    {% endfor %}
+
+
+
+
+</ul>
+<form class="flex justify-center mt-5" method="POST" action="/">
+    {{ form.csrf_token }}
+
+    {{ form.title(class_="input input-primary") }}
+
+
+    {{ form.submit(class_="btn btn-primary mx-2") }}
+</form>
+
+
+{% endblock content %}

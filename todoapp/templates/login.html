@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="flex flex-col justify-center items-center h-screen">
+
+    <h1 class="text-shadow-lg text-5xl text-center">LOGIN</h1>
+
+    <form method="POST" action="/login" class="w-80 mt-5">
+        {{ form.csrf_token }}
+
+       
+
+        <label class="input my-2">
+        {{ form.email.label(class_="label") }} {{form.email }}
+        </label>
+
+        <label class="input my-2">
+        {{ form.password.label(class_="label")}} {{form.password}}
+        </label>
+
+    
+
+        {{ form.submit(class_="btn btn-primary w-80") }}
+    </form>
+</div>
+
+{% endblock content %}
