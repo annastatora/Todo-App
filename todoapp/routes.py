@@ -1,5 +1,5 @@
 from todoapp import app, db, bcrypt
-from todoapp.forms import RegistrationForm, LoginForm, TaskForm
+from todoapp.forms import RegistrationForm, LoginForm, TaskForm, AccountUpdateForm
 from todoapp.models import User, Task
 from flask import render_template, redirect, request
 from flask_login import login_user, current_user, logout_user
@@ -98,3 +98,23 @@ def login():
 def logout():
     logout_user()
     return redirect('/login')
+
+@app.route("/profile", methods=["GET","POST"])
+def profile():
+    if not current_user.is_authenticated:
+        return redirect('/login')
+    
+    form = AccountUpdateForm()
+
+    if form.validate_on_submit():
+        current_user.email = form.email.data
+        current_user.username = form.username.data
+        db.session.add(current_user)
+        db.session.commit()
+        return redirect("/profile")
+
+    
+    form.email.data = current_user.email
+    form.username.data = current_user.username
+    return render_template("profile.html", form=form)
+
