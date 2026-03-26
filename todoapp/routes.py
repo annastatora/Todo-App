@@ -1,7 +1,7 @@
 from todoapp import app, db, bcrypt
 from todoapp.forms import RegistrationForm, LoginForm, TaskForm, AccountUpdateForm
 from todoapp.models import User, Task
-from flask import render_template, redirect, request
+from flask import render_template, redirect, request, url_for
 from flask_login import login_user, current_user, logout_user
 
 
@@ -26,6 +26,29 @@ def tasks_view():
     tasks = Task.query.filter_by(user_id=current_user.id)
 
     return render_template("index.html", tasks=tasks, form=form)
+
+@app.route("/update-task/<id>", methods=["GET","POST"])
+def update_task(id):
+    form = TaskForm()
+
+    task = Task.query.filter_by(id=id).first()
+    if not task or task.user_id != current_user.id:
+        return redirect("/")
+    
+    if form.validate_on_submit():
+        task.title = form.title.data
+        task.done = form.done.data
+        db.session.add(task)
+        db.session.commit()
+        return redirect(url_for('tasks_view'))
+
+
+    form.title.data = task.title
+    form.done.data = task.done
+    form.submit.label.text = "UPDATE"
+
+    return render_template("update-task.html", form=form, task=task)
+
 
 @app.route("/update", methods=["POST"])
 def task_done():

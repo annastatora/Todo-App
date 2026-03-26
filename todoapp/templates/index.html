@@ -20,6 +20,10 @@
            
         </div>
 
+
+        <a name="update" class="btn btn-warning" href="/update-task/{{ task.id }}">UPDATE</a>
+  
+
         <form method="POST" action="/delete">
             <input type="hidden" name="id" value="{{task.id}}">
             <button name="done" class="btn btn-danger" onclick="this.form.submit()">DEL</button>

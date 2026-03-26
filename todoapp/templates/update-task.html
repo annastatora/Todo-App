@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+
+
+{% block content %}
+    <form method="POST" action="/update-task/{{ task.id }}" class="flex flex-col items-center mt-5">
+        {{ form.csrf_token }}
+
+        <div class="flex items-center">
+
+        <label class="input my-2">
+        {{ form.title.label(class_="label") }} {{form.title }}
+        </label>
+
+       
+        {{form.done(class_="ml-3 checkbox checkbox-secondary") }}
+        
+        </div>
+
+        {{ form.submit(class_="btn btn-primary") }}
+
+    </form> 
+
+{% endblock content %}
