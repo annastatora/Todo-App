@@ -25,7 +25,10 @@
         </div>
         <div class="navbar-center hidden lg:flex">
             <ul class="menu menu-horizontal px-1">
+
+            {%if current_user.is_authenticated %}
             <li><a href={{ url_for('tasks_view')}}>Tasks</a></li>
+            {%endif%}
            
             <li><a href={{ url_for('about')}}>About</a></li>
             </ul>
